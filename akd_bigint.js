@@ -1,8 +1,11 @@
 
 
+
 function mult(firstnum1,secondnum1){ 
-    let firstnum=firstnum1.split("");
-    let secondnum=secondnum1.split("");
+     let firstnum = remove_point(firstnum1)["num"];
+     let secondnum = remove_point(secondnum1)["num"]
+     firstnum=firstnum.split("");
+     secondnum=secondnum.split("");
     let bigarr = [];
     let arr = [];
     let carry = 0;
@@ -147,3 +150,11 @@ function mult(firstnum1,secondnum1){
 
 
   //floating point conversion tool
+
+  function remove_point(a){
+
+    let ind = /\./.exec(a)?/\./.exec(a)["index"]:null;
+    let num = a.replace(/\./,"")
+    return {ind:ind,num:num}
+    
+ }
