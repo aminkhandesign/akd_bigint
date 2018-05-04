@@ -20,9 +20,9 @@
             <input type="text" id="firstnum" name="firstnum" placeholder="first number">
             <input type="text" id="secondnum" name="secondnum"  placeholder="second number">
 
-            <button onclick="disp(adder);return false">ADD</button>
-            <button>DELETE</button>
-            <button onclick="disp(mult);return false">MULTIPLY</button>
+            <button id="add">ADD</button>
+            <button id="delete">DELETE</button>
+            <button id="multiply">MULTIPLY</button>
 
 
         </form>    
@@ -33,7 +33,10 @@
             let input2 = document.getElementById("secondnum").value;
             let output  = "";
             let display = document.querySelector("#display");
-            function disp(func){display.innerHTML = func(input1,input2);console.log(func); return false}
+            document.querySelector("#add").addEventListener("click",disp(ev,adder))
+            document.querySelector("#delete").addEventListener("click",disp(ev,minus))
+            document.querySelector("#multiply").addEventListener("click",disp(ev,mult))
+            function disp(func){display.innerHTML = func(input1,input2);console.log(func(input1,input2)); return false}
             
             </script>
     </body>
