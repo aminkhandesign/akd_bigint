@@ -3,12 +3,23 @@
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+
+<!-- let r = /(\.\d+[1-9])(0+$)/
+
+let j = "73547834.004783743400374834000";
+
+
+let s = j.replace(r,"$1");
+
+
+console.log(s); -->
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="http://peterolson.github.com/BigInteger.js/BigInteger.min.js"></script>
         <script src="akd_bigint.js"></script>
        
     </head>
@@ -31,13 +42,11 @@
         <script>
             let input1 = document.getElementById("firstnum").value;
             let input2 = document.getElementById("secondnum").value;
-            let output  = "";
+            // let output  = "";
             let display = document.querySelector("#display");
             document.querySelector("#add").addEventListener("click",disp(ev,adder))
             document.querySelector("#delete").addEventListener("click",disp(ev,minus))
             document.querySelector("#multiply").addEventListener("click",disp(ev,mult))
             function disp(func){display.innerHTML = func(input1,input2);console.log(func(input1,input2)); return false}
-            
             </script>
     </body>
-</html>
