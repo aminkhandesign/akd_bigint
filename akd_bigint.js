@@ -3,8 +3,8 @@
 
 
 //this validates numbers entered: limited to one at a time and checks for correct format
-function validate(num){
-  let sign,power,num1=num;
+function validate(number){
+  let sign,power,num1=number,num={};
   if (arguments.length>1){
     throw "Please enter just 1 number"
   }
@@ -18,6 +18,15 @@ function validate(num){
   if(num1[0]==="-"){
     sign="-";
   }
+  if(num1.indexOf(".")!==-1){
+    power = num1.indexOf(".")
+  }
+  else {
+    power = undefined
+  }
+  num1 = num1.replace(/[\.-]/,"");
+  num.sign=sign;num.value=num1;num.pow=power;
+  return num
 
 }
 
