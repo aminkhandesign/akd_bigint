@@ -4,18 +4,20 @@
 
 //this validates numbers entered: limited to one at a time and checks for correct format
 function validate(num){
-
+  let sign,power,num1=num;
   if (arguments.length>1){
     throw "Please enter just 1 number"
   }
-  let num1 = num;
   if (typeof num1!=="string"){
-    throw "Numbers have to be input as strings"
+    throw "Numbers have to be input as strings";
   }
-  if ((/{\D | . | -}/.test(num1) || /{\D | . | -}/.test(num1) )){
+  if (/[^\.-\d]/.test(num1){
 
-     throw "Please only use digit characters, '.' or '-' in your strings"}
-
+     throw "Please only use digit characters, '.' or '-' in your strings";
+  }
+  if(num1[0]==="-"){
+    sign="-";
+  }
 
 }
 
