@@ -11,7 +11,7 @@ function validate(number){
   if (typeof num1!=="string"){
     throw "Numbers have to be input as strings";
   }
-  if (/[^\.-\d]/.test(num1){
+  if (/[^\.-\d]/.test(num1)){
 
      throw "Please only use digit characters, '.' or '-' in your strings";
   }
