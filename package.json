@@ -1,0 +1,32 @@
+{
+  "name": "stringy_numbers",
+  "version": "1.0.0",
+  "description": "Operate on large numbers with great precision by using strings",
+  "main": "akd_bigint.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aminkhandesign/akd_bigint.git"
+  },
+  "keywords": [
+    "bigint",
+    "big number",
+    "precision",
+    "number",
+    "large",
+    "numbers",
+    "floats"
+  ],
+  "author": "Amin Khan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aminkhandesign/akd_bigint/issues"
+  },
+  "homepage": "https://github.com/aminkhandesign/akd_bigint#readme",
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-plugin-react": "^7.8.1"
+  }
+}
