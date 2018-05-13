@@ -2,7 +2,7 @@
 
 
 
-//this validates numbers entered, limited to one at a time and checks for correct format
+//this validates numbers entered: limited to one at a time and checks for correct format
 function validate(num){
 
   if (arguments.length>1){
