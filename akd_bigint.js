@@ -2,11 +2,11 @@
 
 
 
-
+//this validates numbers entered, limited to one at a time and checks for correct format
 function validate(num){
 
   if (arguments.length>1){
-    throw "Please enter just 2 numbers"
+    throw "Please enter just 1 number"
   }
   let num1 = num;
   if (typeof num1!=="string"){
