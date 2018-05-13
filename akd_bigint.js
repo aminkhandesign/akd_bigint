@@ -3,13 +3,13 @@
 
 
 
-function validate(...args){
+function validate(num){
 
-  if (args.length>2){
+  if (arguments.length>1){
     throw "Please enter just 2 numbers"
   }
-  let [num1,num2] = args;
-  if (typeof num1!=="string" || typeof num2 !=="string"){
+  let num1 = num;
+  if (typeof num1!=="string"){
     throw "Numbers have to be input as strings"
   }
   if ((/{\D | . | -}/.test(num1) || /{\D | . | -}/.test(num1) )){
