@@ -12,8 +12,9 @@ function validate(...args){
   if (typeof num1!=="string" || typeof num2 !=="string"){
     throw "Numbers have to be input as strings"
   }
-if ((/{\D | . | -}/.test(num1) || /{\D | . | -}/.test(num1) ))
-{ throw "Please only use digit characters, '.' or '-' in your strings"}
+  if ((/{\D | . | -}/.test(num1) || /{\D | . | -}/.test(num1) )){
+
+     throw "Please only use digit characters, '.' or '-' in your strings"}
 
 
 }
