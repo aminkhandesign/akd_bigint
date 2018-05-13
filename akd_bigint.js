@@ -1,12 +1,29 @@
 
 
 
+
+
+function validate(...args){
+
+  if (args.length>2){
+    throw "Please enter just 2 numbers"
+  }
+  let [num1,num2] = args;
+  if (typeof num1!=="string" || typeof num2 !=="string"){
+    throw "Numbers have to be input as strings"
+  }
+if ((/{\D | . | -}/.test(num1) || /{\D | . | -}/.test(num1) ))
+{ throw "Please only use digit characters, '.' or '-' in your strings"}
+
+
+}
+
 function mult(firstnum1,secondnum1){ 
-  let num1 = remove_point(firstnum1);
-  let num2 = remove_point(secondnum1); 
-  let firstnum = num1["num"];
-  let secondnum = num2["num"];
-  let place = num1["ind"]+num2["ind"];
+    let num1 = remove_point(firstnum1);
+    let num2 = remove_point(secondnum1); 
+    let firstnum = num1["num"];
+    let secondnum = num2["num"];
+    let place = num1["ind"]+num2["ind"];
   
 
   firstnum=firstnum.split("");
@@ -58,7 +75,7 @@ return bigarr_final
 //findLength returns the length of the longest element in an array of strings
 function findLength(arr){
  let biggest = Math.max(...(arr.map(el=>el.length)))
- return biggest
+ return biggest;
 }
 
 
