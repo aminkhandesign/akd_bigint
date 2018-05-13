@@ -27,7 +27,7 @@ function validate(number){
   else {
     power = undefined
   }
-  num1 = num1.replace(/[\.-]/,"");
+  num1 = num1.replace(/[\.-]/g,"");
   num.sign=sign;num.value=num1;num.pow=power;
   return num
 
