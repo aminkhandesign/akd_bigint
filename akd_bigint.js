@@ -18,6 +18,9 @@ function validate(number){
   if(num1[0]==="-"){
     sign="-";
   }
+  else {
+    sign=""
+  }
   if(num1.indexOf(".")!==-1){
     power = num1.indexOf(".")
   }
