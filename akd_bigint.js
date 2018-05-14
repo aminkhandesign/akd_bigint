@@ -52,7 +52,7 @@ function mult(a,b){
     let secondnum = num2["value"];
     let place = num1["pow"]+num2["pow"]-1;
   //need to figure out signing algorithm
-
+  //values lower than one - fractions - do not convert correctly
   firstnum=firstnum.split("");
   secondnum=secondnum.split("");
  let bigarr = [];
