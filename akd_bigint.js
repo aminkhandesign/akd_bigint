@@ -45,12 +45,12 @@ function validate(number){
 
 }
 
-function mult(firstnum1,secondnum1){ 
-    let num1 = remove_point(firstnum1);
-    let num2 = remove_point(secondnum1); 
-    let firstnum = num1["num"];
-    let secondnum = num2["num"];
-    let place = num1["ind"]+num2["ind"];
+function mult(a,b){ 
+    let num1 = validate(a);
+    let num2 = remove_point(b); 
+    let firstnum = num1["value"];
+    let secondnum = num2["value"];
+    let place = num1["power"]+num2["power"];
   
 
   firstnum=firstnum.split("");
