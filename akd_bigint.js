@@ -6,12 +6,12 @@
 function validate(number){
   let sign,power,num1=number,num={};
   if (arguments.length>1){
-    throw "Please enter just 1 number"
+    throw "Please enter just 1 number";
   }
   if (typeof num1!=="string"){
     throw "Numbers have to be input as strings";
   }
-  if (/[^\.-\d]/.test(num1)){
+  if (/[^.-\d]/.test(num1)){
 
      throw "Please only use digit characters, '.' or '-' in your strings";
   }
@@ -19,7 +19,7 @@ function validate(number){
     sign="-";
   }
   else {
-    sign=""
+    sign="";
   }
   // if(num1.indexOf(".")!==-1 ){
   //   power = num1.indexOf(".")
@@ -27,7 +27,8 @@ function validate(number){
   // else {
   //   power = num1.length 
   // }
-  num1 = num1.replace(/-/g,"");
+  //num1 = num1.replace(/-/g,"");
+  num1 = num1.replace(/-/g,"").replace(/\.$/,"").replace(/^0+/,"").replace(/(\.0+)$/,"").replace(/(\.\d+[1-9])(0+$)/, "$1")
   switch (num1.indexOf(".")){
     case -1:
           power = num1.length;
