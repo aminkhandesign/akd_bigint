@@ -47,11 +47,11 @@ function validate(number){
 
 function mult(a,b){ 
     let num1 = validate(a);
-    let num2 = remove_point(b); 
+    let num2 = validate(b); 
     let firstnum = num1["value"];
     let secondnum = num2["value"];
-    let place = num1["power"]+num2["power"];
-  
+    let place = num1["pow"]+num2["pow"]-1;
+  //need to figure out signing algorithm
 
   firstnum=firstnum.split("");
   secondnum=secondnum.split("");
