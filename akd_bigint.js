@@ -27,7 +27,7 @@ function validate(number){
   // else {
   //   power = num1.length 
   // }
-  //num1 = num1.replace(/-/g,"");
+  //num1 = num1.replace(/-/g,"") --- replaced with code below, integrated remove_point and trimnum into this funciton
   num1 = num1.replace(/-/g,"").replace(/\.$/,"").replace(/^0+/,"").replace(/(\.0+)$/,"").replace(/(\.\d+[1-9])(0+$)/, "$1")
   switch (num1.indexOf(".")){
     case -1:
