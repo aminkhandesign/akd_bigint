@@ -21,13 +21,24 @@ function validate(number){
   else {
     sign=""
   }
-  if(num1.indexOf(".")!==-1){
-    power = num1.indexOf(".")
+  // if(num1.indexOf(".")!==-1 ){
+  //   power = num1.indexOf(".")
+  // }
+  // else {
+  //   power = num1.length 
+  // }
+  num1 = num1.replace(/-/g,"");
+  switch (num1.indexOf(".")){
+    case -1:
+          power = num1.length;
+          break;
+    case 0:
+          power = -(/[1-9]/.exec(num1)["index"]);
+          break;
+    default:
+          power = num1.indexOf(".");   
   }
-  else {
-    power = undefined
-  }
-  num1 = num1.replace(/[\.-]/g,"");
+  num1 = num1.replace(/\./g,"");
   num.sign=sign;num.value=num1;num.pow=power;
   return num
 
