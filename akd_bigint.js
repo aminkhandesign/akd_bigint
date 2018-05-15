@@ -139,28 +139,29 @@ function equalise_floatlength(a,b){
   let [num2_int,num2_dec]  = [b.value,[]];
 
   if(a.original.indexOf(".")!=-1){
-     [num1_int,num1_dec] = a.value.split(".");
+     [num1_int,num1_dec] = a.original.split(".");
   }
   
   if(b.original.indexOf(".")!=-1){
-      [num2_int,num2_dec] = b.value.split(".");
+      [num2_int,num2_dec] = b.original.split(".");
   }
-  for (let i = Math.max(num1_int.length,num2_int.length);i>0;i--){
-     while(i>=num1_int.length){
+  let i = Math.max(num1_int.length,num2_int.length);
+     while(i>num1_int.length){
        num1_int="0"+num1_int;
      }
-     while(i>=num2_int.length){
+     while(i>num2_int.length){
       num2_int="0"+num2_int;
     }
-  }
-  for (let i = Math.max(num1_dec.length,num2_dec.length);i>0;i--){
-    while(i>=num1_dec.length){
+  
+  let j = Math.max(num1_dec.length,num2_dec.length)
+    while(j>num1_dec.length){
       num1_dec=num1_dec+"0";
     }
-    while(i>=num2_dec.length){
+    while(j>num2_dec.length){
      num2_dec=num2_dec+"0";
    }
- }
+
+ return [[num1_int,num1_dec].join("."),[num2_int,num2_dec].join(".")] //maybe not join?
 }
 
 //console.log(same(["12789","1","879"]))
