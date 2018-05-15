@@ -45,12 +45,17 @@ function validate(number){
 
 }
 
+
+
 function mult(a,b){ 
     let num1 = validate(a);
     let num2 = validate(b); 
+    let sign = "";
     let firstnum = num1["value"];
     let secondnum = num2["value"];
-    let place = num1["pow"]+num2["pow"]-1;
+    let place = num1["pow"]+num2["pow"]; //deleted the minus 1, must test this
+    if (num1["sign"]==="-"?!(num2["sign"]==="-"):num2["sign"]==="-")
+      { sign = "-"} //this tests the sign of each number and assigns final sign, replicates XOR
   //need to figure out signing algorithm
   //values lower than one - fractions - do not convert correctly
   firstnum=firstnum.split("");
@@ -94,6 +99,7 @@ bigarr = adder(bigarr)
 let bigarr_final = bigarr.slice(0,place)+"."+ bigarr.slice(place)
 // console.log(bigarr)
 bigarr_final=trimnum(bigarr_final);
+bigarr_final=sign+bigarr_final;  //add sign to arr
 return bigarr_final
 }
 //mult("7823345","333");      
