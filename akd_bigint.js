@@ -4,7 +4,7 @@
 
 //this validates numbers entered: limited to one at a time and checks for correct format
 function validate(number){
-  let sign,power,num1=number,num={};
+  let sign,power,original,num1=number,num={};
   if (arguments.length>1){
     throw "Please enter just 1 number";
   }
@@ -39,8 +39,9 @@ function validate(number){
     default:
           power = num1.indexOf(".");   
   }
+  original = num1;
   num1 = num1.replace(/\./g,"");
-  num.sign=sign;num.value=num1;num.pow=power;
+  num.sign=sign;num.value=num1;num.pow=power;num.original=original
   return num
 
 }
@@ -107,7 +108,7 @@ return bigarr_final
 
 //findLength returns the length of the longest element in an array of strings
 function findLength(arr){
- let biggest = Math.max(...(arr.map(el=>el.length)))
+ let biggest = Math.max(...(arr.map(el=>el.length)));
  return biggest;
 }
 
@@ -118,20 +119,49 @@ function same(arr){
  let newarr=[];
  let biggest=findLength(arr);
  
- for (i of arr){
+ for (let i of arr){  //added 'let' declaration to i
    let j = biggest - i.length;
    let newi=i;
      while(j>0){
     newi ="0"+newi;
-       j--
+       j--;
    }
    newarr.push(newi);
 
 
 }
-   return newarr
+   return newarr;
 }
+//adding new function to equalise length of strings containing decimal point.
 
+function equalise_floatlength(a,b){
+  let [num1_int,num1_dec] = [a.value,[]];
+  let [num2_int,num2_dec]  = [b.value,[]];
+
+  if(a.original.indexOf(".")!=-1){
+     [num1_int,num1_dec] = a.value.split(".");
+  }
+  
+  if(b.original.indexOf(".")!=-1){
+      [num2_int,num2_dec] = b.value.split(".");
+  }
+  for (let i = Math.max(num1_int.length,num2_int.length);i>0;i--){
+     while(i>=num1_int.length){
+       num1_int="0"+num1_int;
+     }
+     while(i>=num2_int.length){
+      num2_int="0"+num2_int;
+    }
+  }
+  for (let i = Math.max(num1_dec.length,num2_dec.length);i>0;i--){
+    while(i>=num1_dec.length){
+      num1_dec=num1_dec+"0";
+    }
+    while(i>=num2_dec.length){
+     num2_dec=num2_dec+"0";
+   }
+ }
+}
 
 //console.log(same(["12789","1","879"]))
 
