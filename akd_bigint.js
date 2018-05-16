@@ -46,7 +46,7 @@ function validate(number){
 
 }
 
-
+/*--------------------------------------*/
 
 function mult(a,b){ 
     let num1 = validate(a);
@@ -103,7 +103,11 @@ bigarr_final=trimnum(bigarr_final);
 bigarr_final=sign+bigarr_final;  //add sign to arr
 return bigarr_final
 }
-//mult("7823345","333");      
+      
+
+
+/*--------------------------------------*/
+/*--------------------------------------*/
 
 
 //findLength returns the length of the longest element in an array of strings
@@ -132,6 +136,12 @@ function same(arr){
 }
    return newarr;
 }
+
+
+/*--------------------------------------*/
+/*--------------------------------------*/
+
+
 //adding new function to equalise length of strings containing decimal point.
 
 function equalise_floatlength(a,b){
@@ -161,10 +171,12 @@ function equalise_floatlength(a,b){
      num2_dec=num2_dec+"0";
    }
 
- return [[num1_int,num1_dec].join("."),[num2_int,num2_dec].join(".")] //maybe not join?
+ return [[num1_int,num1_dec].join(""),[num2_int,num2_dec].join("")]; //maybe not join?
 }
 
-//console.log(same(["12789","1","879"]))
+
+/*--------------------------------------*/
+/*--------------------------------------*/
 
 
 function adder(arr){
@@ -195,7 +207,8 @@ function adder(arr){
 }
 
 
-
+/*-----------MINUS() - ---------------------------*/
+/*--------------------------------------*/
 
 
 function minus(...args){
@@ -236,6 +249,8 @@ function minus(...args){
  
 }
 
+/*-----------REMOVE_POINT() - TAKES:STRING NUMBER - RETURNS OBJECT / INTEGER AND INDEX OF POINT------------*/
+/*-------------------------------------------------------------------------------------------------------*/
 
 //floating point conversion tool
 
@@ -253,6 +268,9 @@ let finalnum = num.replace(/\.$/,"").replace(/^0+/,"").replace(/(\.0+)$/,"").rep
 console.log(finalnum);
 return finalnum
 }
+
+/*----------DIVIDE() -------------*/
+/*---------------------------------*/
 
 
 function divide(num1,num2){
@@ -283,8 +301,10 @@ console.log(finalarr)
 return l-1
 }
 
+/*----------QUOT() - TAKES: TWO STRING NUMBERS - RETURNS: ARRAY //  QUOTIENT AND REMAINDER ------------*/
+/*-----------------------------------------------------------------------------------------------------*/
 
-//divide("800","15")
+
 function quot(num1,num2){
 let count = 0;
 let init= num1;
@@ -301,6 +321,9 @@ let mod = Number(num2)+Number(init);
 return [String(count-1),String(mod)]
 }
 
+/*------------CORRECT_LENGTH()  -  TAKES: TWO STRING NUMBERS------------------------*/
+/*--------------------------------------*/
+
 function correctLength(a,b){
 let diff = Math.abs(a.length-b.length);
 let num = a;
@@ -310,11 +333,11 @@ if(a.length<b.length)
  {
     let loop;
    mag[1]="+";
-   if(a>=b){loop=diff}
-   else {loop=diff+1;mag[0]++}
+   if(a>=b){loop=diff;}
+   else {loop=diff+1;mag[0]++;}
    for(let i=1;i<=loop;i++){
-     mag[0]++
-     num=num+"0"
+     mag[0]++;
+     num=num+"0";
    }
  }
 else if(a.length>b.length)
@@ -324,7 +347,7 @@ else if(a.length>b.length)
    if(a>=b){loop=diff}
    else {loop=diff-1}
    for(let i=1;i<=loop;i++){
-     mag[0]++
+     mag[0]++;
      denom=denom+"0"
    }
  }
