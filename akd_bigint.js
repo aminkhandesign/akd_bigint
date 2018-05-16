@@ -416,7 +416,7 @@ if(a.length<b.length)
     let loop;
    mag[1]="+";
    if(a>=b){loop=diff;}
-   else {loop=diff+1;mag[0]++;}
+   else {loop=diff+1;mag[0]+2;}
    for(let i=1;i<=loop;i++){
      mag[0]++;
      num=num+"0";
@@ -426,24 +426,39 @@ else if(a.length>b.length)
  {
     let loop;
    mag[1]="-";
-   if(a>=b){loop=diff}
-   else {loop=diff-1}
+   if(a>=b){loop=diff;}
+   else {loop=diff-1;};
    for(let i=1;i<=loop;i++){
      mag[0]++;
-     denom=denom+"0"
+     denom=denom+"0";
    }
  }
-console.log(num,denom,mag)
-return [num,denom,mag]
+ else if(a.length===b.length){
+   let loop;
+   if(a<=b){loop=1;}
+   else{loop=0;}
+   mag[1]="+";
+   for(let i=0;i<loop;i++){
+    mag[0]++;
+    num=num+"0";
+  }
+   }
+console.log(num,denom,mag);
+return [num,denom,mag];
 }
+
+
+
+
 //finish this
 function div(precision=100, ...args){
+  let res;
   let set1 = validate(args[0]);
   let set2 = validate(args[1]);
   let newargs = equalise_floatlength(set1,set2);
   let times=precision;
-  let dee = newargs[0]);
-  let dor = newargs[1]);
+  let dee = newargs[0];
+  let dor = newargs[1];
   let corrected = correctLength(dee,dor);
   dee = corrected[0];
   dor = corrected[1];
@@ -453,6 +468,6 @@ let dir = corrected[2][1];
 res = quot(dee,dor)
 if(dir==="-"){for(i=0;i<mag;i++){res[0]=res[0]+"0"}}
 else if(dir==="+"){for(i=0;i<mag-1;i++){res[0]="0"+res[0]}};
-return res
+return res;
 
 }
