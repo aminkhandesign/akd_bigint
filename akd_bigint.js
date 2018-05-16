@@ -25,7 +25,7 @@ function validate(number){
   //   power = num1.indexOf(".")
   // }
   // else {
-  //   power = num1.length 
+  //   power = num1.length
   // }
   //num1 = num1.replace(/-/g,"") --- replaced with code below, integrated remove_point and trimnum into this funciton
   num1 = num1.replace(/-/g,"").replace(/\.$/,"").replace(/^0+/,"").replace(/(\.0+)$/,"").replace(/(\.\d+[1-9])(0+$)/, "$1")
@@ -37,7 +37,7 @@ function validate(number){
           power = -(/[1-9]/.exec(num1)["index"]);
           break;
     default:
-          power = num1.indexOf(".");   
+          power = num1.indexOf(".");
   }
   original = num1;
   num1 = num1.replace(/\./g,"");
@@ -48,9 +48,9 @@ function validate(number){
 
 /*--------------------------------------*/
 
-function mult(a,b){ 
+function mult(a,b){
     let num1 = validate(a);
-    let num2 = validate(b); 
+    let num2 = validate(b);
     let sign = "";
     let firstnum = num1["value"];
     let secondnum = num2["value"];
@@ -72,9 +72,9 @@ function mult(a,b){
      product = secondnum[i]*firstnum[j];
      product = product+Number(carry);
      product = product.toString().split("");
-     arr.unshift(product.pop());  
+     arr.unshift(product.pop());
      carry = product.join("");
-     product = 0;  
+     product = 0;
      }
     else  {
       product = secondnum[i]*firstnum[j];
@@ -86,16 +86,16 @@ function mult(a,b){
      bigarr.unshift(pusher)
       arr=[];
       carry=0;
-      
+
     }
-     
-     
-     
+
+
+
    }
-   
+
 
  }
- 
+
 bigarr = adder(bigarr)
 let bigarr_final = bigarr.slice(0,place)+"."+ bigarr.slice(place)
 // console.log(bigarr)
@@ -103,7 +103,7 @@ bigarr_final=trimnum(bigarr_final);
 bigarr_final=sign+bigarr_final;  //add sign to arr
 return bigarr_final
 }
-      
+
 
 
 /*--------------------------------------*/
@@ -122,7 +122,7 @@ function findLength(arr){
 function same(arr){
  let newarr=[];
  let biggest=findLength(arr);
- 
+
  for (let i of arr){  //added 'let' declaration to i
    let j = biggest - i.length;
    let newi=i;
@@ -151,7 +151,7 @@ function equalise_floatlength(a,b){
   if(a.original.indexOf(".")!=-1){
      [num1_int,num1_dec] = a.original.split(".");
   }
-  
+
   if(b.original.indexOf(".")!=-1){
       [num2_int,num2_dec] = b.original.split(".");
   }
@@ -162,7 +162,7 @@ function equalise_floatlength(a,b){
      while(i>num2_int.length){
       num2_int="0"+num2_int;
     }
-  
+
   let j = Math.max(num1_dec.length,num2_dec.length)
     while(j>num1_dec.length){
       num1_dec=num1_dec+"0";
@@ -189,21 +189,21 @@ function adder(arr){
    let product = 0;
    if(i!==0){
    for(let j of newarr){
-     product = product + Number(j[i]);  
+     product = product + Number(j[i]);
                        }
-     product = product+Number(carry); 
+     product = product+Number(carry);
      product = product.toString().split("");
    finalarr.unshift(product.pop());
    carry = product.join("");
    }
-   else{ for(let j of newarr){product = product+Number(j[i])}; product=product+Number(carry); 
+   else{ for(let j of newarr){product = product+Number(j[i])}; product=product+Number(carry);
        product = product.toString().split("");
        finalarr.unshift(product.join(""))}
  }
  finalarr=finalarr.join("");
  console.log(finalarr);
  return finalarr;
- 
+
 }
 /*-----------ADD() - TAKES: TWO STRING NUMBERS  RETURNS: ONE STRING NUMBER-------------*/
 /*-------------------------------------------------------------------------------------*/
@@ -215,7 +215,7 @@ function add(...args){
   let set1 = validate(args[0]);
   let set2 = validate(args[1]);
   let newarr = equalise_floatlength(set1,set2);
-  let pow1 = set1.pow; 
+  let pow1 = set1.pow;
   let pow2 = set2.pow;
   let finalpow = Math.max(pow1,pow2);
   let diff;
@@ -228,7 +228,7 @@ function add(...args){
   else if (set1.sign==="-" ^ set2.sign==="-"){
      let res = minus(set1.original,set2.original);
      if (res[0]==="-"){
-       res= "HOOLA!" ; //res.substr(1);
+       res= "FIX THIS!!" ; //res.substr(1);
      }
      else {
        res="-"+res;
@@ -239,19 +239,19 @@ function add(...args){
     let product = 0;
     if(i!==0){
     for(let j of newarr){
-      product = product + Number(j[i]);  
+      product = product + Number(j[i]);
                         }
-      product = product+Number(carry); 
+      product = product+Number(carry);
       product = product.toString().split("");
     finalarr.unshift(product.pop());
     carry = product.join("");
     }
-    else{ for(let j of newarr){product = product+Number(j[i])}; product=product+Number(carry); 
+    else{ for(let j of newarr){product = product+Number(j[i])}; product=product+Number(carry);
         product = product.toString().split("");
         finalarr.unshift(product.join(""))}
   }
   if (finalpow<finalarr.length){
-      diff = finalarr.length-finalpow;  
+      diff = finalarr.length-finalpow;
   }
   else {
       diff = finalpow;
@@ -274,7 +274,7 @@ function minus(...args){
  let set1 = validate(args[0]);
  let set2 = validate(args[1]);
  let newargs = equalise_floatlength(set1,set2);
- let pow1 = set1.pow; 
+ let pow1 = set1.pow;
  let pow2 = set2.pow;
  let finalpow = Math.max(pow1,pow2);
  let final=[];
@@ -289,7 +289,7 @@ function minus(...args){
   else{
      bottom= newargs[0];
      top = newargs[1];
-     sign="-"        
+     sign="-"
      }
    for(let i = newargs[0].length-1;i>=0;i--){
      let topnum = Number(top[i]);
@@ -297,13 +297,13 @@ function minus(...args){
      if(carry==1){topnum=topnum-1};
       if(topnum<botnum){
       product=(topnum+10)-botnum;
-      carry=1;    
+      carry=1;
       }
      else{
        product = topnum-botnum;
        carry=0}
      final.unshift(product) ;
-     
+
    }
  if (finalpow<final.length){
    final.splice(finalpow,0,".");
@@ -312,7 +312,7 @@ function minus(...args){
  final = final.join("");
  console.log(final);
  return final
- 
+
 }
 
 /*-----------REMOVE_POINT() - TAKES:STRING NUMBER - RETURNS OBJECT / INTEGER AND INDEX OF POINT------------*/
@@ -325,7 +325,7 @@ function remove_point(a){
  let ind = /\./.exec(a)?/\./.exec(a)["index"]:a.length;
  let num = a.replace(/\./,"")
  return {ind:ind,num:num}
- 
+
 }
 
 function trimnum(num){
@@ -354,12 +354,12 @@ while(test[0] !=="-"){
   test =  minus(test,nums[1])
 
 }
-finalarr.push((l-1).toString()) 
+finalarr.push((l-1).toString())
 // if(test[0]==="-"){
 //   finalarr.push(".");
 //   finalarr
 //   }
- 
+
 
 
 l=0;
@@ -381,7 +381,7 @@ while(ans[0]!="-"){
  ans=minus(init,num2);
  console.log(ans)
  init=ans
- 
+
 }
 let mod = Number(num2)+Number(init);
 return [String(count-1),String(mod)]
@@ -439,7 +439,3 @@ else if(dir==="+"){for(i=0;i<mag-1;i++){res[0]="0"+res[0]}};
 return res
 
 }
-
-
-
-
