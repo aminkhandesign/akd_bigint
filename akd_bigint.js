@@ -225,16 +225,16 @@ function add(...args){
   if (set1.sign==="-" && set2.sign=="-"){
       sign="-";
   }
-  else if (set1.sign==="-" ^ set2.sign==="-"){
-     let res = minus(set1.original,set2.original);
-     if (res[0]==="-"){
-       res= "FIX THIS!!" ; //res.substr(1);
+  else if (set1.sign==="-" && set2.sign!=="-"){
+     let res = minus(set2.original,set1.original);
+     return res
      }
-     else {
-       res="-"+res;
+  else if (set1.sign!=="-" && set2.sign==="-"){
+    let res = minus(set1.original,set2.original);
+    return res
      }
-     return res;
-  }
+     
+  
   for(let i=cols-1; i>=0;i--){
     let product = 0;
     if(i!==0){
@@ -282,6 +282,14 @@ function minus(...args){
  let carry = 0;
  let product = 0;
  let top,bottom;
+ if (set1.sign==="-" && set2.sign!=="-"){
+  let res = "-"+add(set1.original,set2.original);
+  return res
+  }
+else if (set1.sign!=="-" && set2.sign==="-"){
+ let res = add(set1.original,set2.original);
+ return res
+  }
   if(newargs[0]>=newargs[1]){
     top= newargs[0];
     bottom = newargs[1];
@@ -307,6 +315,14 @@ function minus(...args){
    }
  if (finalpow<final.length){
    final.splice(finalpow,0,".");
+ }
+ if (set1.sign==="-" && set2.sign=="-"){
+    if(sign==="-"){
+      sign="";
+    }
+    else {
+    sign="-";
+    }
  }
  final.unshift(sign);
  final = final.join("");
@@ -420,16 +436,17 @@ else if(a.length>b.length)
 console.log(num,denom,mag)
 return [num,denom,mag]
 }
-
-function div(...args){
-
-num1 = trimnum(args[0]);
-num2 = trimnum(args[1]);
-let dee = num1;
-let dor = num2;
-let corrected = correctLength(dee,dor);
-dee = corrected[0];
-dor = corrected[1];
+//finish this
+function div(precision=100, ...args){
+  let set1 = validate(args[0]);
+  let set2 = validate(args[1]);
+  let newargs = equalise_floatlength(set1,set2);
+  let times=precision;
+  let dee = newargs[0]);
+  let dor = newargs[1]);
+  let corrected = correctLength(dee,dor);
+  dee = corrected[0];
+  dor = corrected[1];
 let mag = corrected[2][0];
 let dir = corrected[2][1];
 
