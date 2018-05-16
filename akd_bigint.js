@@ -175,8 +175,8 @@ function equalise_floatlength(a,b){
 }
 
 
-/*--------------------------------------*/
-/*--------------------------------------*/
+/*----------ADDER() - TAKES: ARRAY OF ANY NUMBER OF STRING NUMBERS   RETURNS:STRING NUMBER----------*/
+/*----------------helper function used in mult(), does not deal with decimal or signs---------------*/
 
 
 function adder(arr){
@@ -202,10 +202,69 @@ function adder(arr){
  }
  finalarr=finalarr.join("");
  console.log(finalarr);
- return finalarr
+ return finalarr;
  
 }
+/*-----------ADD() - TAKES: TWO STRING NUMBERS  RETURNS: ONE STRING NUMBER-------------*/
+/*-------------------------------------------------------------------------------------*/
 
+function add(...args){
+
+  let finalarr = [];
+  let temparr = [];
+  let set1 = validate(args[0]);
+  let set2 = validate(args[1]);
+  let newarr = equalise_floatlength(set1,set2);
+  let pow1 = set1.pow; 
+  let pow2 = set2.pow;
+  let finalpow = Math.max(pow1,pow2);
+  let diff;
+  let cols = findLength(newarr);
+  let carry  = 0;
+  let sign="";
+  if (set1.sign==="-" && set2.sign=="-"){
+      sign="-";
+  }
+  else if (set1.sign==="-" ^ set2.sign==="-"){
+     let res = minus(set1.original,set2.original);
+     if (res[0]==="-"){
+       res= "HOOLA!" ; //res.substr(1);
+     }
+     else {
+       res="-"+res;
+     }
+     return res;
+  }
+  for(let i=cols-1; i>=0;i--){
+    let product = 0;
+    if(i!==0){
+    for(let j of newarr){
+      product = product + Number(j[i]);  
+                        }
+      product = product+Number(carry); 
+      product = product.toString().split("");
+    finalarr.unshift(product.pop());
+    carry = product.join("");
+    }
+    else{ for(let j of newarr){product = product+Number(j[i])}; product=product+Number(carry); 
+        product = product.toString().split("");
+        finalarr.unshift(product.join(""))}
+  }
+  if (finalpow<finalarr.length){
+      diff = finalarr.length-finalpow;  
+  }
+  else {
+      diff = finalpow;
+  }
+  finalarr.splice(finalpow,0,".");
+  finalarr=finalarr.join("");
+  finalarr=trimnum(finalarr);
+  finalarr=sign+finalarr;
+  console.log(finalarr);
+  return finalarr;
+
+
+}
 
 /*-----------MINUS() - TAKES: TWO STRING NUMBERS  RETURNS: ONE STRING NUMBER---------------------------*/
 /*-----------------------------------------------------------------------------------------------------*/
