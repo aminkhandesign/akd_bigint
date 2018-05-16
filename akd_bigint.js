@@ -207,12 +207,17 @@ function adder(arr){
 }
 
 
-/*-----------MINUS() - ---------------------------*/
-/*--------------------------------------*/
+/*-----------MINUS() - TAKES: TWO STRING NUMBERS  RETURNS: ONE STRING NUMBER---------------------------*/
+/*-----------------------------------------------------------------------------------------------------*/
 
-
+//come back to deal with signs
 function minus(...args){
- let newargs = same(args);
+ let set1 = validate(args[0]);
+ let set2 = validate(args[1]);
+ let newargs = equalise_floatlength(set1,set2);
+ let pow1 = set1.pow; 
+ let pow2 = set2.pow;
+ let finalpow = Math.max(pow1,pow2);
  let final=[];
  let sign="";
  let carry = 0;
@@ -241,10 +246,12 @@ function minus(...args){
      final.unshift(product) ;
      
    }
-   
+ if (finalpow<final.length){
+   final.splice(finalpow,0,".");
+ }
  final.unshift(sign);
- final = final.join("")
- console.log(final)
+ final = final.join("");
+ console.log(final);
  return final
  
 }
