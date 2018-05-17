@@ -40,7 +40,7 @@ function validate(number){
   }
   original = num1;
   num1 = num1.replace(/\./g,"");
-  num.sign=sign;num.value=num1;num.pow=power;num.original=original
+  num.sign=sign;num.value=num1;num.pow=power;num.original=original;
   return num
 
 }
@@ -387,18 +387,18 @@ return l-1
 
 
 function quot(num1,num2){
-let count = 0;
+let count = "0";
 let init= num1;
 let last;
-let ans = ""
+let ans = "";
 while(ans[0]!="-"){
- count++;
+ count=add(count,"1")
  ans=minus(init,num2);
  console.log(ans)
  init=ans
 
 }
-let mod = Number(num2)+Number(init);
+let mod = add(num2,init);
 return [String(count-1),String(mod)]
 }
 
@@ -453,22 +453,24 @@ return [num,denom,mag];
 function div(precision=100, ...args){
   let final = [];
   let prec=precision;
-  let pow;
   let set1=validate(args[0]);
   let set2=validate(args[1]);
   let nums = equalise_floatlength(set1,set2);
   let num1 = nums[0], num2 = nums[1];
+  let pow = set1.pow-set2.pow;
 
   function cal(a,b){
+    a=a.replace(/^0+/,"");
+    b=b.replace(/^0+/,"");
     let set3 = correctLength(a,b);
-    console.log(set3)
+    console.log(`before corrected, a: ${a} -- b: ${b}   and after a: ${set3[0]} -- b: ${set3[1]} `);
     if(prec>0)
     {
       prec--;
       let ex= quot(set3[0],set3[1]);
-      if(pow===undefined){
-        pow=set3[2][0];
-      }
+      // if(pow===undefined){
+      //   pow=set3[2][0];
+      // }
       final.push(ex[0]);
       if(ex[1]==="0"){
         return
@@ -482,8 +484,8 @@ function div(precision=100, ...args){
   cal(num1,num2);
   console.log(`final BEFORE convserion: ${final}`);
   final = final.join("").split("");
-  console.log(`final after convserion: ${final}`);
-  final.splice(pow[0],0,".")
+  console.log(`final after convserion: ${final}   and pow= ${pow}`);
+  final.splice(pow,0,".")
   final = final.join("");
   return final;
 }
