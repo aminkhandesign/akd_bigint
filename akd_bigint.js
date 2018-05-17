@@ -1,10 +1,9 @@
 
 
 
-
 //this validates numbers entered: limited to one at a time and checks for correct format
 function validate(number){
-  let sign,power,original,num1=number,num={};
+  let sign,power,original,num1=number,num={}
   if (arguments.length>1){
     throw "Please enter just 1 number";
   }
