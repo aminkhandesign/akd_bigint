@@ -451,6 +451,39 @@ return [num,denom,mag];
 
 //finish this
 function div(precision=100, ...args){
- 
+  let final = [];
+  let prec=precision;
+  let pow;
+  let set1=validate(args[0]);
+  let set2=validate(args[1]);
+  let nums = equalise_floatlength(set1,set2);
+  let num1 = nums[0], num2 = nums[1];
 
+  function cal(a,b){
+    let set3 = correctLength(a,b);
+    console.log(set3)
+    if(prec>0)
+    {
+      prec--;
+      let ex= quot(set3[0],set3[1]);
+      if(pow===undefined){
+        pow=set3[2][0];
+      }
+      final.push(ex[0]);
+      if(ex[1]==="0"){
+        return
+      }
+      else{
+        return cal(ex[1],b);
+      }
+    }
+    return;
+  }
+  cal(num1,num2);
+  console.log(`final BEFORE convserion: ${final}`);
+  final = final.join("").split("");
+  console.log(`final after convserion: ${final}`);
+  final.splice(pow[0],0,".")
+  final = final.join("");
+  return final;
 }
