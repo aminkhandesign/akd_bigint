@@ -398,8 +398,10 @@ while(ans[0]!="-"){
  init=ans
 
 }
+
 let mod = add(num2,init);
-return [String(count-1),String(mod)]
+mod = trimnum(mod);
+return [minus(count,"1"),mod]
 }
 
 /*------------CORRECT_LENGTH()  -  TAKES: TWO STRING NUMBERS------------------------*/
@@ -457,11 +459,11 @@ function div(precision=100, ...args){
   let set2=validate(args[1]);
   let nums = equalise_floatlength(set1,set2);
   let num1 = nums[0], num2 = nums[1];
-  let pow = set1.pow-set2.pow;
+  let pow = (set1.pow-set2.pow)+1;
 
   function cal(a,b){
-    a=a.replace(/^0+/,"");
-    b=b.replace(/^0+/,"");
+    // a=a.replace(/^0+/,"");
+    // b=b.replace(/^0+/,"");
     let set3 = correctLength(a,b);
     console.log(`before corrected, a: ${a} -- b: ${b}   and after a: ${set3[0]} -- b: ${set3[1]} `);
     if(prec>0)
@@ -472,7 +474,7 @@ function div(precision=100, ...args){
       //   pow=set3[2][0];
       // }
       final.push(ex[0]);
-      if(ex[1]==="0"){
+      if(ex[1]==="0" || ex[1] === ""){
         return
       }
       else{
