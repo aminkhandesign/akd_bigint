@@ -487,7 +487,7 @@ function div(precision=100, ...args){
   console.log(`final BEFORE convserion: ${final}`);
   final = final.join("").split("");
   console.log(`final after convserion: ${final}   and pow= ${pow}`);
-  final.splice(pow,0,".")
+  final.splice(pow-1,0,".")
   final = final.join("");
   return final;
 }
