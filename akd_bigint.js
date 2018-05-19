@@ -454,7 +454,7 @@ return [num,denom,mag];
 
 
 //finish this
-function div(precision=100, ...args){
+function div(precision=100, ...args){ // fix order of args, so precision can be ommited
   let final = [];
   let prec=precision;
   let set1=validate(args[0]);
@@ -466,7 +466,7 @@ function div(precision=100, ...args){
   function cal(a,b){
     // a=a.replace(/^0+/,"");
     // b=b.replace(/^0+/,"");
-    let set3 = correctLength(a,b);
+    let set3 = correctLength(a.replace(/^0+/,""),b.replace(/^0+/,""));
     console.log(`before corrected, a: ${a} -- b: ${b}   and after a: ${set3[0]} -- b: ${set3[1]} `);
     if(prec>0)
     {
@@ -487,6 +487,7 @@ function div(precision=100, ...args){
   }
   cal(num1,num2);
   console.log(`final BEFORE convserion: ${final}`);
+  //map any chars begining with 0 to remove 0
   final = final.join("").split("");
   console.log(`final after convserion: ${final}   and pow= ${pow}`);
   final.splice(pow,0,".")
