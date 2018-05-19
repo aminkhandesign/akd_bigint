@@ -15,10 +15,10 @@ function validate(number){
      throw "Please only use digit characters, '.' or '-' in your strings";
   }
   if(num1[0]==="-"){
-    sign="-";
+    sign=true;
   }
   else {
-    sign="";
+    sign=false;
   }
   // if(num1.indexOf(".")!==-1 ){
   //   power = num1.indexOf(".")
@@ -27,13 +27,13 @@ function validate(number){
   //   power = num1.length
   // }
   //num1 = num1.replace(/-/g,"") --- replaced with code below, integrated remove_point and trimnum into this funciton
-  num1 = num1.replace(/-/g,"").replace(/\.$/,"").replace(/^0+/,"").replace(/(\.0+)$/,"").replace(/(\.\d+[1-9])(0+$)/, "$1")
+  num1 = num1.replace(/-/g,"").replace(/\.$/,"").replace(/^0+/,"").replace(/(\.0+)$/,"").replace(/(\.\d+[1-9])(0+$)/, "$1") //CHECK THIS!!!
   switch (num1.indexOf(".")){
     case -1:
           power = num1.length;
           break;
     case 0:
-          power = -(/[1-9]/.exec(num1)["index"]);
+          power = -(/[1-9]/.exec(num1)["index"]+1 );
           break;
     default:
           power = num1.indexOf(".");
@@ -50,12 +50,12 @@ function validate(number){
 function mult(a,b){
     let num1 = validate(a);
     let num2 = validate(b);
-    let sign = "";
+    let sign = false;
     let firstnum = num1["value"];
     let secondnum = num2["value"];
-    let place = num1["pow"]+num2["pow"]; //deleted the minus 1, must test this
-    if (num1["sign"]==="-"?!(num2["sign"]==="-"):num2["sign"]==="-")
-      { sign = "-"} //this tests the sign of each number and assigns final sign, replicates XOR
+    let place = num1["pow"]+num2["pow"]-1; //deleted the minus 1, must test this
+    if (num1["sign"]?!num2["sign"]:num2["sign"])
+      { sign = true} //this tests the sign of each number and assigns final sign, replicates XOR
   //need to figure out signing algorithm
   //values lower than one - fractions - do not convert correctly
   firstnum=firstnum.split("");
@@ -95,12 +95,14 @@ function mult(a,b){
 
  }
 
-bigarr = adder(bigarr)
-let bigarr_final = bigarr.slice(0,place)+"."+ bigarr.slice(place)
+bigarr = adder(bigarr);
+let bigarr_final = bigarr.slice(0,place)+"."+ bigarr.slice(place);
 // console.log(bigarr)
-bigarr_final=trimnum(bigarr_final);
-bigarr_final=sign+bigarr_final;  //add sign to arr
-return bigarr_final
+//bigarr_final=trimnum(bigarr_final);
+if(sign){
+  bigarr_final="-"+bigarr_final;  //add sign to arr
+}
+return trimnum(bigarr_final);
 }
 
 
@@ -220,15 +222,15 @@ function add(...args){
   let diff;
   let cols = findLength(newarr);
   let carry  = 0;
-  let sign="";
-  if (set1.sign==="-" && set2.sign=="-"){
-      sign="-";
+  let sign=false;
+  if (set1.signbv&& set2.sign){
+      sign=true;
   }
-  else if (set1.sign==="-" && set2.sign!=="-"){
+  else if (set1.sign && !set2.sign){
      let res = minus(set2.original,set1.original);
      return res
      }
-  else if (set1.sign!=="-" && set2.sign==="-"){
+  else if (!set1.sign && set2.sign){
     let res = minus(set1.original,set2.original);
     return res
      }
@@ -258,7 +260,7 @@ function add(...args){
   finalarr.splice(finalpow,0,".");
   finalarr=finalarr.join("");
   finalarr=trimnum(finalarr);
-  finalarr=sign+finalarr;
+  finalarr=sign?"-":"" + finalarr;
   console.log(finalarr);
   return finalarr;
 
@@ -281,11 +283,11 @@ function minus(...args){
  let carry = 0;
  let product = 0;
  let top,bottom;
- if (set1.sign==="-" && set2.sign!=="-"){
+ if (set1.sign && !set2.sign){
   let res = "-"+add(set1.original,set2.original);
   return res
   }
-else if (set1.sign!=="-" && set2.sign==="-"){
+else if (!set1.sign && set2.sign){
  let res = add(set1.original,set2.original);
  return res
   }
@@ -315,7 +317,7 @@ else if (set1.sign!=="-" && set2.sign==="-"){
  if (finalpow<final.length){
    final.splice(finalpow,0,".");
  }
- if (set1.sign==="-" && set2.sign=="-"){
+ if (set1.sign && set2.sign){
     if(sign==="-"){
       sign="";
     }
@@ -459,7 +461,7 @@ function div(precision=100, ...args){
   let set2=validate(args[1]);
   let nums = equalise_floatlength(set1,set2);
   let num1 = nums[0], num2 = nums[1];
-  let pow = (set1.pow-set2.pow)+1;
+  let pow = (set1.pow-set2.pow);
 
   function cal(a,b){
     // a=a.replace(/^0+/,"");
@@ -487,7 +489,7 @@ function div(precision=100, ...args){
   console.log(`final BEFORE convserion: ${final}`);
   final = final.join("").split("");
   console.log(`final after convserion: ${final}   and pow= ${pow}`);
-  final.splice(pow-1,0,".")
+  final.splice(pow,0,".")
   final = final.join("");
   return final;
 }
