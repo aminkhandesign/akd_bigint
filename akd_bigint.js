@@ -53,7 +53,7 @@ function mult(a,b){
     let sign = false;
     let firstnum = num1["value"];
     let secondnum = num2["value"];
-    let place = num1["pow"]+num2["pow"]; //deleted the minus 1, must test this
+    let place = num1["pow"]+num2["pow"]-1; //deleted the minus 1, must test this
     if (num1["sign"]?!num2["sign"]:num2["sign"])
       { sign = true} //this tests the sign of each number and assigns final sign, replicates XOR
   //need to figure out signing algorithm
@@ -488,10 +488,13 @@ function div(precision=100, ...args){ // fix order of args, so precision can be 
   cal(num1,num2);
   console.log(`final BEFORE convserion: ${final}`);
   //map any chars begining with 0 to remove 0
-  final.map(el=>el.replace(/^0/,"");
+  final.map(el=>el.replace(/^0/,""));
   final = final.join("").split("");
   console.log(`final after convserion: ${final}   and pow= ${pow}`);
   final.splice(pow,0,".")
   final = final.join("");
   return final;
 }
+
+
+mult("32445.02001002398212304","10.01003")
