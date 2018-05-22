@@ -4,7 +4,8 @@
   "description": "Operate on large numbers with great precision by using strings",
   "main": "akd_bigint.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+	"test-init":"./node_modules/jasmine/bin/jasmine.js init",
+    "test": "./node_modules/jasmine/bin/jasmine.js" 
   },
   "repository": {
     "type": "git",
@@ -27,6 +28,7 @@
   "homepage": "https://github.com/aminkhandesign/akd_bigint#readme",
   "devDependencies": {
     "eslint": "^4.19.1",
-    "eslint-plugin-react": "^7.8.1"
+    "eslint-plugin-react": "^7.8.1",
+    "jasmine": "^3.1.0"
   }
 }

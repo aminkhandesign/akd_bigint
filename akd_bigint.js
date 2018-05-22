@@ -497,4 +497,4 @@ function div(precision=100, ...args){ // fix order of args, so precision can be 
 }
 
 
-mult("32445.02001002398212304","10.01003")
+module.exports =mult 
