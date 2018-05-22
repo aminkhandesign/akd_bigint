@@ -53,7 +53,7 @@ function mult(a,b){
     let sign = false;
     let firstnum = num1["value"];
     let secondnum = num2["value"];
-    let place = num1["pow"]+num2["pow"]-1; //deleted the minus 1, must test this
+    let place = num1["pow"]+num2["pow"]; //deleted the minus 1, must test this
     if (num1["sign"]?!num2["sign"]:num2["sign"])
       { sign = true} //this tests the sign of each number and assigns final sign, replicates XOR
   //need to figure out signing algorithm
@@ -497,4 +497,4 @@ function div(precision=100, ...args){ // fix order of args, so precision can be 
 }
 
 
-module.exports =mult 
+module.exports =[mult,equalise_floatlength];
