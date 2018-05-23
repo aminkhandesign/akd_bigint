@@ -3,7 +3,7 @@
 
 //this validates numbers entered: limited to one at a time and checks for correct format
 function validate(number){
-  let sign,power,original,num1=number,num={}
+  let sign,power,original,decimal=0,num1=number,num={}
   if (arguments.length>1){
     throw "Please enter just 1 number";
   }
@@ -20,30 +20,27 @@ function validate(number){
   else {
     sign=false;
   }
-  // if(num1.indexOf(".")!==-1 ){
-  //   power = num1.indexOf(".")
-  // }
-  // else {
-  //   power = num1.length
-  // }
-  //num1 = num1.replace(/-/g,"") --- replaced with code below, integrated remove_point and trimnum into this funciton
+  
   num1 = num1.replace(/-/g,"").replace(/\.$/,"").replace(/^0+/,"").replace(/(\.0+)$/,"").replace(/(\.\d+[1-9])(0+$)/, "$1") //CHECK THIS!!!
   switch (num1.indexOf(".")){
     case -1:
           power = num1.length;
           break;
     case 0:
-          power = -(/[1-9]/.exec(num1)["index"]+1 );
+          power = -(/[1-9]/.exec(num1)["index"]);
           break;
     default:
           power = num1.indexOf(".");
   }
+  decimal = /\.(\d+)/.exec(num1)?/\.(\d+)/.exec(num1)[1]: "";
   original = num1;
   num1 = num1.replace(/\./g,"");
-  num.sign=sign;num.value=num1;num.pow=power;num.original=original;
+  num.sign=sign;num.value=num1;num.pow=power;num.decimal = decimal;num.original=original;
   return num
 
 }
+
+
 
 /*--------------------------------------*/
 
@@ -51,9 +48,10 @@ function mult(a,b){
     let num1 = validate(a);
     let num2 = validate(b);
     let sign = false;
-    let firstnum = num1["value"];
-    let secondnum = num2["value"];
-    let place = num1["pow"]+num2["pow"]; //deleted the minus 1, must test this
+    let firstnum = equalise_floatlength(num1,num2)[0];//num1["value"];
+    let secondnum = equalise_floatlength(num1,num2)[1];//num2["value"];
+    let declength = Math.max(num1["decimal"].length,num2["decimal"].length)*2;
+
     if (num1["sign"]?!num2["sign"]:num2["sign"])
       { sign = true} //this tests the sign of each number and assigns final sign, replicates XOR
   //need to figure out signing algorithm
@@ -63,6 +61,7 @@ function mult(a,b){
  let bigarr = [];
  let arr = [];
  let carry = 0;
+ let bigarr_final; 
 
  for (let i=secondnum.length-1;i>=0;i--){
    for(let j=firstnum.length-1;j>=0;j-- ){
@@ -96,14 +95,29 @@ function mult(a,b){
  }
 
 bigarr = adder(bigarr);
-let bigarr_final = bigarr.slice(0,place)+"."+ bigarr.slice(place);
-// console.log(bigarr)
-//bigarr_final=trimnum(bigarr_final);
+bigarr = trimnum(bigarr);  
+    
+let place =  bigarr.length-declength ; 
+
+
+if(place>=0) { 
+bigarr_final = bigarr.slice(0,place)+"."+ bigarr.slice(place);
+}
+else {
+  for(let i = 0; i<Math.abs(place);i++){
+    bigarr = "0"+bigarr;
+  }
+   bigarr_final = "."+bigarr;
+}  
+
 if(sign){
   bigarr_final="-"+bigarr_final;  //add sign to arr
 }
+  
 return trimnum(bigarr_final);
 }
+
+
 
 
 
@@ -497,4 +511,5 @@ function div(precision=100, ...args){ // fix order of args, so precision can be 
 }
 
 
-module.exports =[mult,equalise_floatlength];
+module.exports.mult = mult;
+module.exports.equalise_floatlength =equalise_floatlength;
