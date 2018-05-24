@@ -1,7 +1,7 @@
-var {mult, equalise_floatlength} = require("../akd_bigint.js");
+var {mult, equalise_floatlength, div} = require("../akd_bigint.js");
 
 describe("Multiplying two numbers",()=>{
-
+    console.log("MULTIPLICATION")
     it("two single digit integers..", ()=>{
         expect(mult("2","2")).toBe("4");
     });
@@ -53,8 +53,21 @@ describe("Multiplying two numbers",()=>{
 
 describe("EQUALISE",()=>{
 
+    console.log("EQUALISE LENGTH")
+
     it("23.4544 - 4.56", ()=>{
         expect(equalise_floatlength({original:"23.4544",pow:2,value:"234544"},{pow:1,original:"4.56",value:"456"})).toEqual(["234544","045600"]);
+    });
+
+
+});
+
+describe("DIVISION",()=>{
+
+    console.log("DIVISION")
+
+    it("TWO LARGE INTEGERS", ()=>{
+        expect(div(20,"989898121212767676","874874874874874874")).toEqual("1.1314739394640216353694602094869049305639682186402");
     });
 
 
