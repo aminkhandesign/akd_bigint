@@ -3,7 +3,7 @@
 
 //this validates numbers entered: limited to one at a time and checks for correct format
 function validate(number){
-  let sign,power,original,decimal=0,num1=number,num={}
+  let sign,power,original,decimal,num1=number,num={}
   if (arguments.length>1){
     throw "Please enter just 1 number";
   }
@@ -475,13 +475,21 @@ function div(precision=100, ...args){ // fix order of args, so precision can be 
   let set2=validate(args[1]);
   let nums = equalise_floatlength(set1,set2);
   let num1 = nums[0], num2 = nums[1];
-  let pow = (set1.pow-set2.pow);
+  //let pow = (set1.pow-set2.pow)+1;
 
   function cal(a,b){
     // a=a.replace(/^0+/,"");
     // b=b.replace(/^0+/,"");
     let set3 = correctLength(a.replace(/^0+/,""),b.replace(/^0+/,""));
     console.log(`before corrected, a: ${a} -- b: ${b}   and after a: ${set3[0]} -- b: ${set3[1]} `);
+    if(set3[2][1]==="+"){
+      if(final.indexOf(".")===-1){
+      final.push(".");}
+       for(let i=1;i<set3[2][0];i++){
+    final.push("0");
+      }
+     
+    }
     if(prec>0)
     {
       prec--;
@@ -489,8 +497,15 @@ function div(precision=100, ...args){ // fix order of args, so precision can be 
       // if(pow===undefined){
       //   pow=set3[2][0];
       // }
+      console.log("quotient and remainder:", ex)
       final.push(ex[0]);
       if(ex[1]==="0" || ex[1] === ""){
+        if(set3[2][1]==="-"){
+             for(let i=0;i<set3[2][0];i++){
+           final.push("0");
+            }
+        }
+        final.push()
         return
       }
       else{
@@ -502,14 +517,19 @@ function div(precision=100, ...args){ // fix order of args, so precision can be 
   cal(num1,num2);
   console.log(`final BEFORE convserion: ${final}`);
   //map any chars begining with 0 to remove 0
-  final.map(el=>el.replace(/^0/,""));
-  final = final.join("").split("");
-  console.log(`final after convserion: ${final}   and pow= ${pow}`);
-  final.splice(pow,0,".")
+  final=final.map(el=>el.length>1? el.replace(/^0/,""):el);
+  
+  //final=final.map((el,ind)=>el.length>1 )
+  if(set1.sign ^ set2.sign){
+    final.unshift("-");
+  }
   final = final.join("");
   return final;
 }
 
 
+
 module.exports.mult = mult;
 module.exports.equalise_floatlength =equalise_floatlength;
+module.exports.div = div;
+
