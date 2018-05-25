@@ -1,6 +1,5 @@
 
 
-
 //this validates numbers entered: limited to one at a time and checks for correct format
 function validate(number){
   let sign,power,original,decimal,num1=number,num={}
@@ -407,10 +406,11 @@ let count = "0";
 let init= num1;
 let last;
 let ans = "";
-while(ans[0]!="-"){
+while(ans[0]!="-"){     // CHANGED FROM :  while(ans[0]!="-"){ 
  count=add(count,"1")
  ans=minus(init,num2);
- console.log(ans)
+
+ //console.log(ans)
  init=ans
 
 }
@@ -423,36 +423,41 @@ return [minus(count,"1"),mod]
 /*------------CORRECT_LENGTH()  -  TAKES: TWO STRING NUMBERS------------------------*/
 /*--------------------------------------*/
 
-function correctLength(a,b){
-let diff = Math.abs(a.length-b.length);
-let num = a;
-let denom = b;
+function correctLength(a,b){ 
+let num = trimnum(a);
+let denom = trimnum(b);
+let diff = Math.abs(num.length-denom.length);  
 let mag = [0,""];
-if(a.length<b.length)
+if(num==denom){
+  return [num,denom,mag];
+}  
+if(num.length<denom.length)
  {
     let loop;
    mag[1]="+";
-   if(a>=b){loop=diff;}
-   else {loop=diff+1;mag[0]+2;}
+   if(num>=denom){loop=diff;}
+   else {loop=diff+1;mag[0]+2;}               //** CHANGED FROM: else {loop=diff+1;mag[0]+2;}
+   if(loop==0){mag[1]=""}                     //** ADDED LINE
    for(let i=1;i<=loop;i++){
      mag[0]++;
      num=num+"0";
    }
  }
-else if(a.length>b.length)
+else if(num.length>denom.length)
  {
     let loop;
-   mag[1]="-";
-   if(a>=b){loop=diff;}
+   mag[1]="-";                                 //** CHANGED FROM: mag[1]="-"
+   if(num>=denom){loop=diff;}
    else {loop=diff-1;};
-   for(let i=1;i<=loop;i++){
+   if(loop==0){mag[1]=""}                     //** ADDED LINE              
+   for(let i=0;i<loop;i++){
      mag[0]++;
      denom=denom+"0";
    }
  }
- else if(a.length===b.length){
+ else if(num.length===denom.length){
    let loop;
-   if(a<=b){loop=1;}
+   if(num<denom){loop=1;}
    else{loop=0;}
    mag[1]="+";
    for(let i=0;i<loop;i++){
@@ -481,7 +486,8 @@ function div(precision=100, ...args){ // fix order of args, so precision can be 
     // a=a.replace(/^0+/,"");
     // b=b.replace(/^0+/,"");
     let set3 = correctLength(a.replace(/^0+/,""),b.replace(/^0+/,""));
-    console.log(`before corrected, a: ${a} -- b: ${b}   and after a: ${set3[0]} -- b: ${set3[1]} `);
+    console.log(`before corrected, set3 ${set3} a: ${a} -- b: ${b}   and after a: ${set3[0]} -- b: ${set3[1]} `);
+    console.log(`SET3:`,set3)
     if(set3[2][1]==="+"){
       if(final.indexOf(".")===-1){
       final.push(".");}
@@ -499,16 +505,24 @@ function div(precision=100, ...args){ // fix order of args, so precision can be 
       // }
       console.log("quotient and remainder:", ex)
       final.push(ex[0]);
+      console.log("stage FInal:", final)
       if(ex[1]==="0" || ex[1] === ""){
         if(set3[2][1]==="-"){
              for(let i=0;i<set3[2][0];i++){
-           final.push("0");
+           final.push("-");
             }
         }
-        final.push()
         return
       }
-      else{
+      else{ 
+//         if(set3[2][1]==="-" ){
+//              for(let i=0;i<set3[2][0];i++){
+//            final.push("?");
+//             }
+//         }
+        
+        //---------- can also test for positive ex magnitude here and 
+        
         return cal(ex[1],b);
       }
     }
@@ -517,13 +531,22 @@ function div(precision=100, ...args){ // fix order of args, so precision can be 
   cal(num1,num2);
   console.log(`final BEFORE convserion: ${final}`);
   //map any chars begining with 0 to remove 0
+  let point_place = final.indexOf(".");
+  console.log("POINT PLACE",point_place)
+  if(point_place>0){
+    final.splice(point_place,1)
+  }
+  console.log("FINAL:", final)
   final=final.map(el=>el.length>1? el.replace(/^0/,""):el);
-  
+  console.log("FINAL:", final)
+  final = final.join("");
+  if(point_place>0){final = [final.slice(0,point_place),".",final.slice(point_place)].join("")}
   //final=final.map((el,ind)=>el.length>1 )
   if(set1.sign ^ set2.sign){
-    final.unshift("-");
+    final="-"+final;
   }
-  final = final.join("");
+  
+  console.log("nums:", nums);
   return final;
 }
 
