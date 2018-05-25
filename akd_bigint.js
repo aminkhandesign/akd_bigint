@@ -1,5 +1,3 @@
-
-
 //this validates numbers entered: limited to one at a time and checks for correct format
 function validate(number){
   let sign,power,original,decimal,num1=number,num={}
@@ -215,7 +213,6 @@ function adder(arr){
        finalarr.unshift(product.join(""))}
  }
  finalarr=finalarr.join("");
- console.log(finalarr);
  return finalarr;
 
 }
@@ -274,7 +271,7 @@ function add(...args){
   finalarr=finalarr.join("");
   finalarr=trimnum(finalarr);
   finalarr=sign?"-":"" + finalarr;
-  console.log(finalarr);
+
   return finalarr;
 
 
@@ -283,7 +280,7 @@ function add(...args){
 /*-----------MINUS() - TAKES: TWO STRING NUMBERS  RETURNS: ONE STRING NUMBER---------------------------*/
 /*-----------------------------------------------------------------------------------------------------*/
 
-//come back to deal with signs
+
 function minus(...args){
  let set1 = validate(args[0]);
  let set2 = validate(args[1]);
@@ -340,7 +337,6 @@ else if (!set1.sign && set2.sign){
  }
  final.unshift(sign);
  final = final.join("");
- console.log(final);
  return final
 
 }
@@ -348,7 +344,7 @@ else if (!set1.sign && set2.sign){
 /*-----------REMOVE_POINT() - TAKES:STRING NUMBER - RETURNS OBJECT / INTEGER AND INDEX OF POINT------------*/
 /*-------------------------------------------------------------------------------------------------------*/
 
-//floating point conversion tool
+
 
 function remove_point(a){
 
@@ -361,7 +357,6 @@ function remove_point(a){
 function trimnum(num){
 let finalnum = num.replace(/\.$/,"").replace(/^0+/,"").replace(/(\.0+)$/,"").replace(/(\.\d+[1-9])(0+$)/, "$1");
 
-console.log(finalnum);
 return finalnum
 }
 
@@ -385,15 +380,8 @@ while(test[0] !=="-"){
 
 }
 finalarr.push((l-1).toString())
-// if(test[0]==="-"){
-//   finalarr.push(".");
-//   finalarr
-//   }
-
-
 
 l=0;
-console.log(finalarr)
 return l-1
 }
 
@@ -436,8 +424,8 @@ if(num.length<denom.length)
     let loop;
    mag[1]="+";
    if(num>=denom){loop=diff;}
-   else {loop=diff+1;mag[0]+2;}               //** CHANGED FROM: else {loop=diff+1;mag[0]+2;}
-   if(loop==0){mag[1]=""}                     //** ADDED LINE
+   else {loop=diff+1;mag[0]+2;}               
+   if(loop==0){mag[1]=""}                   
    for(let i=1;i<=loop;i++){
      mag[0]++;
      num=num+"0";
@@ -446,10 +434,10 @@ if(num.length<denom.length)
 else if(num.length>denom.length)
  {
     let loop;
-   mag[1]="-";                                 //** CHANGED FROM: mag[1]="-"
+   mag[1]="-";                               
    if(num>=denom){loop=diff;}
    else {loop=diff-1;};
-   if(loop==0){mag[1]=""}                     //** ADDED LINE              
+   if(loop==0){mag[1]=""}                          
    for(let i=0;i<loop;i++){
      mag[0]++;
      denom=denom+"0";
@@ -465,94 +453,137 @@ else if(num.length>denom.length)
     num=num+"0";
   }
    }
-console.log(num,denom,mag);
+
 return [num,denom,mag];
 }
 
+function correctDivLength(a,b){ 
+let num = trimnum(a);
+let denom = trimnum(b);
+let diff = Math.abs(num.length-denom.length);  
+let mag = [0,""];
+if(num==denom){
+  return [num,denom,mag];
+}  
+if(num.length<denom.length)
+ {
+   let loop;
+    
+   mag[1]="+";
+   if(num>=denom || num.replace(/0+$/,"")==denom.replace(/0+$/,"")){loop=diff;}
+   else {loop=diff+1;mag[0]+2;}               
+   if(loop==0){mag[1]=""}                   
+   for(let i=1;i<=loop;i++){
+     mag[0]++;
+     num=num+"0";
+   }
+ }
+else if(num.length>denom.length)
+ {
+    let loop;
+   mag[1]="-";                               
+   if(num>=denom){loop=diff;}
+   else {loop=diff-1;};
+   if(loop==0){mag[1]=""}                          
+   for(let i=0;i<loop;i++){
+     mag[0]++;
+     denom=denom+"0";
+   }
+ }
+ else if(num.length===denom.length){
+   let loop;
+   if(num<denom){loop=1;}
+   else{loop=0;}
+   mag[1]="+";
+   for(let i=0;i<loop;i++){
+    mag[0]++;
+    num=num+"0";
+  }
+   }
+
+return [num,denom,mag];
+}
+/*--------------------------------------------------------------------------------*/
+/*-------DIV(), TAKES: 1 NUMBER, 2 STRING NUMBERS, RETURNS: 1 STRING NUMBER-------*/
+/*--------------------------------------------------------------------------------*/
 
 
 
-//finish this
-function div(precision=100, ...args){ // fix order of args, so precision can be ommited
+function div(precision=100, ...args){ 
   let final = [];
   let prec=precision;
   let set1=validate(args[0]);
   let set2=validate(args[1]);
   let nums = equalise_floatlength(set1,set2);
   let num1 = nums[0], num2 = nums[1];
-  //let pow = (set1.pow-set2.pow)+1;
+
 
   function cal(a,b){
-    // a=a.replace(/^0+/,"");
-    // b=b.replace(/^0+/,"");
-    let set3 = correctLength(a.replace(/^0+/,""),b.replace(/^0+/,""));
-    console.log(`before corrected, set3 ${set3} a: ${a} -- b: ${b}   and after a: ${set3[0]} -- b: ${set3[1]} `);
-    console.log(`SET3:`,set3)
-    if(set3[2][1]==="+"){
-      if(final.indexOf(".")===-1){
-      final.push(".");}
-       for(let i=1;i<set3[2][0];i++){
-    final.push("0");
-      }
-     
+
+    let set3 = correctDivLength(a.replace(/^0+/,""),b.replace(/^0+/,""));
+    let amount = set3[2][0];
+    let sign;
+    
+    if(amount!=0){
+     sign = set3[2][1]}
+    else{
+      sign = "";
     }
-    if(prec>0)
-    {
+    let ex= quot(set3[0],set3[1]);
+
+    if(prec>0){
       prec--;
-      let ex= quot(set3[0],set3[1]);
-      // if(pow===undefined){
-      //   pow=set3[2][0];
-      // }
-      console.log("quotient and remainder:", ex)
-      final.push(ex[0]);
-      console.log("stage FInal:", final)
-      if(ex[1]==="0" || ex[1] === ""){
-        if(set3[2][1]==="-"){
-             for(let i=0;i<set3[2][0];i++){
-           final.push("-");
-            }
+      if(sign=="+"){
+        if(final.indexOf(".")==-1){
+          final.push(".")
         }
-        return
+        for(let i=1;i<amount;i++){
+          final.push("0");
+
+        }
+        final.push(ex[0]);
+        if(ex[1]=="" || ex[1]=="0"){
+
+          return
+        }
       }
-      else{ 
-//         if(set3[2][1]==="-" ){
-//              for(let i=0;i<set3[2][0];i++){
-//            final.push("?");
-//             }
-//         }
+      else if(sign=="-"){
+        final.push(ex[0])
+        if(ex[1]==""){
+           for(let i=0;i<amount;i++){
+          final.push("0");
+          
+           }
+         return;
+        } /////////////
         
-        //---------- can also test for positive ex magnitude here and 
-        
-        return cal(ex[1],b);
       }
+      else{
+        final.push(ex[0])
+      }
+
+      return cal(ex[1],num2);
+   
     }
     return;
   }
   cal(num1,num2);
-  console.log(`final BEFORE convserion: ${final}`);
+
   //map any chars begining with 0 to remove 0
   let point_place = final.indexOf(".");
-  console.log("POINT PLACE",point_place)
+
   if(point_place>0){
     final.splice(point_place,1)
   }
-  console.log("FINAL:", final)
+
   final=final.map(el=>el.length>1? el.replace(/^0/,""):el);
-  console.log("FINAL:", final)
+
   final = final.join("");
   if(point_place>0){final = [final.slice(0,point_place),".",final.slice(point_place)].join("")}
-  //final=final.map((el,ind)=>el.length>1 )
+
   if(set1.sign ^ set2.sign){
     final="-"+final;
   }
-  
-  console.log("nums:", nums);
   return final;
 }
-
-
-
-module.exports.mult = mult;
-module.exports.equalise_floatlength =equalise_floatlength;
-module.exports.div = div;
 
