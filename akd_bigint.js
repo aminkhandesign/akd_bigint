@@ -1,4 +1,7 @@
 //this validates numbers entered: limited to one at a time and checks for correct format
+
+/*------------VALIDATE() TAKES: ONE STRING NUMBER, RETURNS: OBJECT --------------------*/
+/*-----------------------------helper function-----------------------------------------*/
 function validate(number){
   let sign,power,original,decimal,num1=number,num={}
   if (arguments.length>1){
@@ -32,14 +35,15 @@ function validate(number){
   decimal = /\.(\d+)/.exec(num1)?/\.(\d+)/.exec(num1)[1]: "";
   original = num1;
   num1 = num1.replace(/\./g,"");
-  num.sign=sign;num.value=num1;num.pow=power;num.decimal = decimal;num.original=original;
+  num ={sign,value:num1,pow:power,decimal,original};
   return num
 
 }
 
 
 
-/*--------------------------------------*/
+/*----------MULT()  TAKES TWO STRING NUMBERS, RETURNS ONE STRING NUMBER-----------------------*/
+/*--------------------------------------------------------------------------------------------*/
 
 function mult(a,b){
     let num1 = validate(a);
@@ -117,9 +121,9 @@ return trimnum(bigarr_final);
 
 
 
+/*------------FINDLENGTH() TAKES: ARRAY OF STRING NUMBERS, RETURNS: STRING NUMBER--------------*/
+/*-------------------------------------helper function-----------------------------------------*/
 
-/*--------------------------------------*/
-/*--------------------------------------*/
 
 
 //findLength returns the length of the longest element in an array of strings
@@ -129,6 +133,8 @@ function findLength(arr){
 }
 
 
+/*------------SAME() TAKES: ARRAY OF STRING NUMBERS, RETURNS: ARRAY--------------------*/
+/*-----------------------------helper function-----------------------------------------*/
 
 //same makes all the strings the same length, number of digits by adding 00
 function same(arr){
@@ -150,8 +156,8 @@ function same(arr){
 }
 
 
-/*--------------------------------------*/
-/*--------------------------------------*/
+/*------------EQUALISE_FLOATLENGTH() TAKES: VALIDATE() OBJECTS, RETURNS: ARRAY OF TWO STRING NUMBERS---------------*/
+/*-----------------------------------------------helper function---------------------------------------------------*/
 
 
 //adding new function to equalise length of strings containing decimal point.
@@ -233,7 +239,7 @@ function add(...args){
   let cols = findLength(newarr);
   let carry  = 0;
   let sign=false;
-  if (set1.signbv&& set2.sign){
+  if (set1.sign&& set2.sign){
       sign=true;
   }
   else if (set1.sign && !set2.sign){
@@ -277,8 +283,8 @@ function add(...args){
 
 }
 
-/*-----------MINUS() - TAKES: TWO STRING NUMBERS  RETURNS: ONE STRING NUMBER---------------------------*/
-/*-----------------------------------------------------------------------------------------------------*/
+/*-----------MINUS() - TAKES: TWO STRING NUMBERS  RETURNS: ONE STRING NUMBER-------------*/
+/*---------------------------------------------------------------------------------------*/
 
 
 function minus(...args){
@@ -342,9 +348,9 @@ else if (!set1.sign && set2.sign){
 }
 
 /*-----------REMOVE_POINT() - TAKES:STRING NUMBER - RETURNS OBJECT / INTEGER AND INDEX OF POINT------------*/
-/*-------------------------------------------------------------------------------------------------------*/
+/*--------------------------------------------helper function----------------------------------------------*/
 
-
+//removes decimal
 
 function remove_point(a){
 
@@ -360,45 +366,21 @@ let finalnum = num.replace(/\.$/,"").replace(/^0+/,"").replace(/(\.0+)$/,"").rep
 return finalnum
 }
 
-/*----------DIVIDE() -------------*/
-/*---------------------------------*/
 
-
-function divide(num1,num2){
-
-let finalarr=[];
-let carry=0;
-let nums = [num1,num2];
-let test=nums[0];
-let l = 0;
-function mins(a,b){
- return minus(a,b)
- }
-while(test[0] !=="-"){
- l++;
-  test =  minus(test,nums[1])
-
-}
-finalarr.push((l-1).toString())
-
-l=0;
-return l-1
-}
 
 /*----------QUOT() - TAKES: TWO STRING NUMBERS - RETURNS: ARRAY //  QUOTIENT AND REMAINDER ------------*/
-/*-----------------------------------------------------------------------------------------------------*/
+/*--------------------------------------helper function------------------------------------------------*/
 
+//like a modulo operation but returns both quotient and remainder
 
 function quot(num1,num2){
 let count = "0";
 let init= num1;
 let last;
 let ans = "";
-while(ans[0]!="-"){     // CHANGED FROM :  while(ans[0]!="-"){ 
+while(ans[0]!="-"){    
  count=add(count,"1")
  ans=minus(init,num2);
-
- //console.log(ans)
  init=ans
 
 }
@@ -408,8 +390,11 @@ mod = trimnum(mod);
 return [minus(count,"1"),mod]
 }
 
-/*------------CORRECT_LENGTH()  -  TAKES: TWO STRING NUMBERS------------------------*/
-/*--------------------------------------*/
+/*------------CORRECT_LENGTH()  -  TAKES: TWO STRING NUMBERS  RETURNS: ARRAY----------------*/
+/*---------------------------------helper function-----------------------------------------*/
+
+// Corrects length of smaller number by magnitudes of 10 to bring to as close to the size of bigger number without going over
+// returns corrected numbers and an array of the mgnitude change and the number changed, + = first number, - = second number
 
 function correctLength(a,b){ 
 let num = trimnum(a);
@@ -453,11 +438,13 @@ else if(num.length>denom.length)
     num=num+"0";
   }
    }
-
+if(mag[0]==0){mag[1]=""}
 return [num,denom,mag];
 }
-
+/*------------correctLength for DIV operations----------------*/
+/*---------------------helper function------------------------*/
 function correctDivLength(a,b){ 
+
 let num = trimnum(a);
 let denom = trimnum(b);
 let diff = Math.abs(num.length-denom.length);  
@@ -492,9 +479,9 @@ else if(num.length>denom.length)
  }
  else if(num.length===denom.length){
    let loop;
-   if(num<denom){loop=1;}
-   else{loop=0;}
-   mag[1]="+";
+   if(num<denom){loop=1; mag[1]="+"}
+   else{loop=0;mag[1]=""}
+
    for(let i=0;i<loop;i++){
     mag[0]++;
     num=num+"0";
@@ -503,9 +490,9 @@ else if(num.length>denom.length)
 
 return [num,denom,mag];
 }
-/*--------------------------------------------------------------------------------*/
-/*-------DIV(), TAKES: 1 NUMBER, 2 STRING NUMBERS, RETURNS: 1 STRING NUMBER-------*/
-/*--------------------------------------------------------------------------------*/
+
+/*-------DIV(), TAKES: 1 NUMBER and 2 STRING NUMBERS, RETURNS: 1 STRING NUMBER-------*/
+/*-----------------------------------------------------------------------------------*/
 
 
 
@@ -516,53 +503,89 @@ function div(precision=100, ...args){
   let set2=validate(args[1]);
   let nums = equalise_floatlength(set1,set2);
   let num1 = nums[0], num2 = nums[1];
-
+  let old_mag = "start";
+  let old_sign;
 
   function cal(a,b){
 
     let set3 = correctDivLength(a.replace(/^0+/,""),b.replace(/^0+/,""));
-    let amount = set3[2][0];
-    let sign;
-    
-    if(amount!=0){
-     sign = set3[2][1]}
-    else{
-      sign = "";
-    }
+    let mag = set3[2][0];
+    let sign = set3[2][1];
     let ex= quot(set3[0],set3[1]);
+    let quotient=ex[0];
+    let remainder=ex[1];
+    let zeros;
+    if(old_mag!="start"){
+      if (remainder!=""){
+          zeros = (old_mag-mag-1)} 
+      else {zeros = mag-1}
+        }
+    else  {zeros=mag;}
 
     if(prec>0){
       prec--;
       if(sign=="+"){
+        if(old_sign="-" && final.indexOf(".")==-1){
+          for(let i=0;i<old_mag;i++){
+          final.push("0");
+           }
+        }
         if(final.indexOf(".")==-1){
           final.push(".")
         }
-        for(let i=1;i<amount;i++){
+        for(let i=1;i<mag;i++){
           final.push("0");
 
         }
-        final.push(ex[0]);
-        if(ex[1]=="" || ex[1]=="0"){
-
-          return
-        }
+        final.push(quotient);
+        if(remainder==""){
+                          return
+                          }
       }
+      
+      
       else if(sign=="-"){
-        final.push(ex[0])
-        if(ex[1]==""){
-           for(let i=0;i<amount;i++){
-          final.push("0");
-          
+       
+        if(old_mag=="start" ){
+          final.push(quotient)
+          if(remainder==""){
+            for(let i=0;i<mag;i++){
+          final.push("0"); 
            }
-         return;
-        } /////////////
+            return
+          }
+        }
         
+        else {
+
+           for(let i=0;i<zeros;i++){
+          final.push("0");
+           }
+          final.push(quotient)
+
+        } 
+       
       }
       else{
-        final.push(ex[0])
+        if(old_mag=="start"){
+          final.push(quotient);
+          for(let i=0;i<zeros;i++){
+          final.push("0");
+           }
+          if(remainder==""){return}
+        }
+        
+        else if(old_mag!="start"){
+           for(let i=0;i<old_mag-1;i++){  
+          final.push("0");
+           }
+          final.push(quotient)
+         if(remainder==""){return}
+        }
       }
-
-      return cal(ex[1],num2);
+      old_mag= mag;
+      old_sign=sign;      
+      return cal(remainder,num2);
    
     }
     return;
@@ -584,6 +607,35 @@ function div(precision=100, ...args){
   if(set1.sign ^ set2.sign){
     final="-"+final;
   }
+  final = trimnum(final);
   return final;
 }
+
+/*--------------TEST() TAKES TWO NUMBERS, CONSOLE.LOGS RESULTS OF MATH OPERATIONS COMAPRED TO RESULTS FROM NATIVE JS MATH ----------------*/
+/*---------------------------------------------------------test function------------------------------------------------------------------*/
+function test(x,y){
+  console.clear();
+  console.log("-----------------------------------------------");
+  console.log("|              BIG FLOAT TEST                  |");
+  console.log("-----------------------------------------------");
+  console.log(`MY MULT:   ${mult(String(x),String(y)) }`);
+  console.log(`NATIVE JS: ${x*y}`)
+  console.log("-----------------------------------------------");
+  console.log(`MY ADD:    ${add(String(x),String(y)) }`);
+  console.log(`NATIVE JS: ${x+y}`)
+  console.log("-----------------------------------------------");
+  console.log(`MY MINUS:    ${minus(String(x),String(y)) }`);
+  console.log(`NATIVE JS: ${x-y}`)
+  console.log("-----------------------------------------------");
+  console.log(`MY DIV:    ${div(20,String(x),String(y))}`);
+  console.log(`NATIVE JS: ${x/y}`)
+}
+
+module.exports.mult = mult
+module.exports.div = div
+module.exports.minus = minus
+module.exports.add = add
+module.exports.test = test
+
+
 

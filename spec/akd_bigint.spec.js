@@ -1,4 +1,4 @@
-var {mult, equalise_floatlength, div} = require("../akd_bigint.js");
+var {mult, div, minus, add} = require("../akd_bigint.js");
 
 describe("Multiplying two numbers",()=>{
     console.log("MULTIPLICATION")
@@ -51,28 +51,40 @@ describe("Multiplying two numbers",()=>{
 
  });
 
-describe("EQUALISE",()=>{
 
-    console.log("EQUALISE LENGTH")
-
-    it("23.4544 - 4.56", ()=>{
-        expect(equalise_floatlength({original:"23.4544",pow:2,value:"234544"},{pow:1,original:"4.56",value:"456"})).toEqual(["234544","045600"]);
-    });
-
-
-});
 
 describe("DIVISION",()=>{
 
     console.log("DIVISION")
 
     it("TWO LARGE INTEGERS", ()=>{
-        expect(div(20,"989898121212767676","874874874874874874")).toEqual("1.1314739394640216353694602094869049305639682186402");
+        expect(div(20,"989898121212767676","874874874874874874")).toEqual("1.13147393946402163536");
     });
 
     it("LARGE INTEGERS REVERSED", ()=>{
-        expect(div(20,"874874874874874874","989898121212767676")).toEqual("0.88380294509805436364651042804");
+        expect(div(20,"874874874874874874","989898121212767676")).toEqual(".88380294509805436364651");
     });
 
+    it("TWO SMALL INTEGERS", ()=>{
+        expect(div(10,"10","1")).toEqual("10");
+    });
+
+    it("TWO SMALL INTEGERS REVERSED", ()=>{
+        expect(div(10,"1","10")).toEqual(".1");
+    });
+
+    it("INTEGERS WITH ZEROS IN DIGITS", ()=>{
+        expect(div(10,"1202020205","101")).toEqual("11901190.1485");
+    });
+
+    it("INTEGERS WITH ZEROS IN DIGITS REVERSED", ()=>{
+        expect(div(10,"101","1202020205")).toEqual(".0000000840252098757");
+    });
+
+    it("PRODUCING MINUS NUMBERS", ()=>{
+        expect(div(10,"101","-1202020205")).toEqual("-.0000000840252098757");
+    });
 
 });
+
+
