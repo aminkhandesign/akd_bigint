@@ -1,4 +1,4 @@
-# String Numbers
+# Stringy Numbers
 
 
 ## Introduction
@@ -44,8 +44,8 @@ div(10,"1234","5678");
 ' .2173300457907' 
 ``` 
 
-_Note: the leading zero is  omitted in answers that are less than one.
-       however answers can be input with leading or trailing 0s. _
+_Note: the leading zero is  omitted in answers that are less than one._
+_however answers can be input with leading or trailing 0s._
 
 
 
